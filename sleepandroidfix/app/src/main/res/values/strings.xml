@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sleep as Android fix</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+
+    <string name="accessibility_service_description">accessibility_service_description</string>
+    <string name="accessibility_service_name">Sleep as Android fix</string>
+    <string name="service_name">Sleep as Android fix</string>
+
+    <string name="device_admin_activation_message">In order for this application to work properly you will need to activate administrator rights.</string>
+
+
+    <string name="textNotification">A quitter never wins and a winner never quits.</string>
+
+</resources>

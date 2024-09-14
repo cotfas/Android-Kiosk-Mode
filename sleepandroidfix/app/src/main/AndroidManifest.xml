@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cashdivider.deviceadmin"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
+    <!--ENABLE BATTERY OPTIMIZATION IN ORDER FOR ACCESSIBILITY SERVICE TO WORK-->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
+
+    <!--Used for detecting audio-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--Used for detecting audio-->
+
+
+    <!--Recording audio-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!--Recording audio-->
+
+
+    <!--Permission for using dialogs from services-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+
+    <!--CYANOGEN METHOD-->
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+
+
+    <!--Override status bar-->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+
+
+    <!--KioskService-->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+
+    <application
+        android:name=".application.AppApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+
+        <activity
+            android:name=".MainActivityN"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <!--Override HOME BUTTON-->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY"/>
+                <!--Override HOME BUTTON-->
+
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".policy.PolicyActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:label="@string/app_name" >
+        </activity>
+
+
+        <!--Detect power button-->
+        <receiver android:name=".powerbuttonother.CloseSystemDialogsIntentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <!--Detect power button-->
+
+
+        <!--POWER BUTTON-->
+        <service
+            android:name=".powerbutton.PowerButtonService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
+        <!--POWER BUTTON-->
+
+
+
+        <!--Detect notification-->
+        <service android:name="com.cashdivider.deviceadmin.NotificationListener"
+            android:label="@string/service_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+        <!--Detect notification-->
+
+
+
+        <!--Detect activity changes-->
+        <service
+            android:label="@string/accessibility_service_name"
+            android:name=".WindowChangeDetectingService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter android:priority="99">
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibilityservice"/>
+        </service>
+        <!--Detect activity changes-->
+
+
+
+        <!-- Device admin -->
+        <receiver android:name=".policy.Policy$PolicyAdmin"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
+            </intent-filter>
+        </receiver>
+
+
+       <!-- RECEIVE ALARM UPDATES-->
+        <receiver
+            android:name=".other.AlarmReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+
+                <action android:name="com.urbandroid.sleep.alarmclock.ALARM_ALERT"/>
+
+                <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <!-- RECEIVE ALARM UPDATES-->
+
+
+
+        <service android:name=".other.SleepStarter" android:exported="false"/>
+
+        <service android:name=".other.KioskService" android:exported="false"/>
+
+    </application>
+
+</manifest>
